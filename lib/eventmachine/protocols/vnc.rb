@@ -22,6 +22,10 @@ module EventMachine; module Protocols
         22 => "Colin Dean xvp",
       }
 
+      attr_accessor :screen_width
+      attr_accessor :screen_height
+      attr_accessor :name
+
       KEY_EVENT = 4
       POINTER_EVENT = 5
 
@@ -148,6 +152,7 @@ module EventMachine; module Protocols
         return result
       end # def consume
 
+      public
       def error(message)
         if self.respond_to?(:errback)
           self.errback(message)
@@ -156,6 +161,7 @@ module EventMachine; module Protocols
         end
       end
 
+      public
       def pointerevent(x, y, buttonmask)
         message = [ POINTER_EVENT, buttonmask, x, y ].pack("CCnn")
         send_data(message)
