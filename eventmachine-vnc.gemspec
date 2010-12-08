@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   #svnrev = %x{svn info}.split("\n").grep(/Revision:/).first.split(" ").last.to_i
   rev = Time.now.strftime("%Y%m%d%H%M%S")
   spec.name = "eventmachine-vnc"
-  spec.version = "0.1.#{rev}"
+  spec.version = "0.2.#{rev}"
   spec.summary = "eventmachine vnc - vnc/rfb protocol support"
   spec.description = "VNC for EventMachine"
   spec.add_dependency("eventmachine")
