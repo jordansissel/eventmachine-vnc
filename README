@@ -1,0 +1,5 @@
+
+VNC/RFB library for EventMachine.
+
+Currently only supports running as a Client, but acting as a server should be
+pretty easy. The protocol is pretty simple.
