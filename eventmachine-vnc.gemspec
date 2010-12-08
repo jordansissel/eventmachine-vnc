@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary = "eventmachine vnc - vnc/rfb protocol support"
   spec.description = "VNC for EventMachine"
   spec.add_dependency("eventmachine")
+  spec.add_dependency("ruby-vnc")  # so we can use the 'cipher/des' stuff
   spec.files = files
   spec.require_paths << "lib"
 

@@ -41,6 +41,7 @@ module EventMachine; module Protocols
         end
       end # def receive_data
 
+      private
       def handshake
         return :wait if @buffer.length < 12
 
@@ -52,6 +53,7 @@ module EventMachine; module Protocols
         @state = :security
       end # def handshake
 
+      private
       def security
         return :wait if @buffer.length < 4
         security_type = consume(4).unpack("N").first
@@ -75,6 +77,7 @@ module EventMachine; module Protocols
       end # def security
 
       # Page 14, RFB 3.7 PDF
+      private
       def security_vnc_authentication
         # TODO(sissel): implement VNC auth (DES a 16 byte challenge + password)
         # Except the password is bitwise-reversed.
@@ -89,6 +92,7 @@ module EventMachine; module Protocols
         @state = :security_result
       end # def security_vnc_authentication
 
+      private
       def security_result
         return :wait if @buffer.length < 4
         result = consume(4).unpack("N").first
@@ -100,6 +104,7 @@ module EventMachine; module Protocols
       end # def security_result
 
       # ClientInit is 1 byte, U8. Value is 'shared-flag' nonzero is true.
+      private
       def client_init
         shared = [1].pack("C")
         send_data(shared)
@@ -113,6 +118,7 @@ module EventMachine; module Protocols
       # 16, PIXEL_FORMAT, server-pixel-format
       # 4, U32, name-length
       # <name-length>, U8 array, name-string
+      private
       def server_init
         return :wait if @buffer.length < 24
         @screen_width, @screen_height, @pixel_format, @name_length = \
@@ -121,6 +127,7 @@ module EventMachine; module Protocols
         @state = :server_init_name
       end
 
+      private
       def server_init_name
         return :wait if @buffer.length < @name_length
         @name = consume(@name_length)
@@ -129,10 +136,12 @@ module EventMachine; module Protocols
         ready if self.respond_to?(:ready)
       end
 
+      private
       def read_error
         error(@buffer)
       end
 
+      private
       def consume(bytes)
         result = @buffer[0 .. bytes - 1]
         @buffer = @buffer[bytes .. -1]
@@ -145,6 +154,11 @@ module EventMachine; module Protocols
         else
           raise message
         end
+      end
+
+      def pointerevent(x, y, buttonmask)
+        message = [ POINTER_EVENT, buttonmask, x, y ].pack("CCnn")
+        send_data(message)
       end
     end # module Client
   end # module VNC
