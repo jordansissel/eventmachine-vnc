@@ -1,0 +1,1 @@
+require "eventmachine/protocols/vnc"
