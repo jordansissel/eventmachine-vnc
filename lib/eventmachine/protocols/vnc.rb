@@ -173,7 +173,7 @@ module EventMachine; module Protocols
         # 1 byte 'pressed' aka 'down?'
         # 2 bytes padding
         # 4 bytes keysym
-        message = [ KEY_EVENT, pressed ? 1 : 0, 0, 0, keysym].pack("CCCCn")
+        message = [ KEY_EVENT, pressed ? 1 : 0, 0, keysym].pack("CCC2N")
         send_data(message)
       end
     end # module Client
