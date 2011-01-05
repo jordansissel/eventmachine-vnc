@@ -166,6 +166,16 @@ module EventMachine; module Protocols
         message = [ POINTER_EVENT, buttonmask, x, y ].pack("CCnn")
         send_data(message)
       end
+
+      public
+      def keyevent(keysym, pressed)
+        # 1 byte message type
+        # 1 byte 'pressed' aka 'down?'
+        # 2 bytes padding
+        # 4 bytes keysym
+        message = [ KEY_EVENT, pressed ? 1 : 0, 0, 0, keysym].pack("CCCCn")
+        send_data(message)
+      end
     end # module Client
   end # module VNC
 end; end # module EventMachine::Protocols
